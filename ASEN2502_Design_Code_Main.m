@@ -66,7 +66,7 @@ addpath(genpath('Design Input Files'));
 addpath(genpath('Model Functions'));
 
 %% Import and Read Aircraft Design File
-Design_Input_Filename = "Design Input File_Tempest.xlsx";
+Design_Input_Filename = "Design Input File_Student_Blank_V25-01.xlsx";
 
 Design_Input = readtable(Design_Input_Filename,'Sheet','Main_Input','ReadRowNames',true); %Read in Aircraft Geometry File
 Count = height(Design_Input); %Number of different aircraft configurations in design input file
