@@ -106,23 +106,23 @@ Material_Data = readtable(Design_Input_Filename,'Sheet','Materials'); %Read in p
         ParasiteDrag(Design_Input,Airfoil,WingGeo_Data,ATMOS,Count,Plot_Parasite_Data);
 
 % Call Induced Drag Model Function
-    Plot_Induced_Data = 0; %Set to 0 to suppress plots for this function or 1 to output plots (Fig 400 - 499)
+    Plot_Induced_Data = 1; %Set to 0 to suppress plots for this function or 1 to output plots (Fig 400 - 499)
     [InducedDrag_Data,OswaldModel_Names] = ...
         InducedDrag(Design_Input,WingLiftModel,WingLiftCurve,WingDragCurve,WingGeo_Data,Parasite_Drag_Data,Count,Benchmark,Plot_Induced_Data);
 
 % Call Complete Drag Polar Function
-Plot_DragPolar_Data = 0; %Set to 0 to suppress plots for this function or 1 to output plots (Fig 500 - 599)
+Plot_DragPolar_Data = 1; %Set to 0 to suppress plots for this function or 1 to output plots (Fig 500 - 599)
 [DragPolar_mod1,DragPolar_mod2,DragPolar_mod3] = ...
     DragPolar(Parasite_Drag_Data,InducedDrag_Data,OswaldModel_Names,Design_Input,AoA_Count,WingLiftCurve,WingDragCurve,AirfoilLiftCurve,Airfoil,Benchmark,Count,Plot_DragPolar_Data);
 
 % Call L/D Analysis Function
-    Plot_LD_Data = 0; %Set to 0 to suppress plots for this function or 1 to output plots (Fig 600 - 699)
+    Plot_LD_Data = 1; %Set to 0 to suppress plots for this function or 1 to output plots (Fig 600 - 699)
     [LD_mod1,LD_mod2,LD_mod3,LD_benchmark] = ...
         LD(Design_Input,Benchmark,DragPolar_mod1,DragPolar_mod2,DragPolar_mod3,WingLiftCurve,WingDragCurve,AoA_Count,Count,OswaldModel_Names,Plot_LD_Data);
 
 %% Calculations - Structural Models
 % Call Weight Model
-    Plot_Weight_Data = 0; %Set to 0 to suppress plots for this function or 1 to output plots (Fig 700 - 799)
+    Plot_Weight_Data = 1; %Set to 0 to suppress plots for this function or 1 to output plots (Fig 700 - 799)
     [Weight_Data,CG_Data] = ...
         Weight(Design_Input,Count,WingGeo_Data,Airfoil,Material_Data,Component_Data,g,Plot_Weight_Data);
 
@@ -148,4 +148,11 @@ Plot_DragPolar_Data = 0; %Set to 0 to suppress plots for this function or 1 to o
 
 
 %% Reset default color order
+% Export all open figures to the Figures folder (creates folder if needed)
+try
+    exportAllFigures('Figures');
+catch ME
+    warning('exportAllFigures:failed','%s',ME.message);
+end
+
 set(0,'DefaultAxesColorOrder','default')
